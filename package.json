@@ -1,0 +1,15 @@
+{
+  "name": "notcached",
+  "version": "0.0.1",
+  "description": "Memcached client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "takase1121",
+  "license": "MIT",
+  "dependencies": {
+    "deepmerge": "^4.2.2",
+    "tarn": "^2.0.0"
+  }
+}
