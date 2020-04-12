@@ -18,8 +18,7 @@ class Notcached extends EventEmitter {
             retry: 3000,
             timeout: 3000,
             tcp: {},
-            legacyFlags: true,
-            random: Notcached.id
+            legacyFlags: true
         };
 
         this.options = merge(defaultOptions, options);
@@ -301,14 +300,6 @@ class Notcached extends EventEmitter {
 
         // ready for next request
         this.dequeue();
-    }
-    
-    /**
-     * A hopefully sufficient ID generator
-     * @private
-     */
-    static id() {
-        return `Request${Date.now()}-${Math.random() * 10000}`;
     }
 
     /**
