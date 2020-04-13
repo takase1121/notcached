@@ -2,7 +2,7 @@
   "name": "notcached",
   "version": "0.0.1",
   "description": "Memcached client",
-  "main": "index.js",
+  "main": "src/Notcached.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "deepmerge": "^4.2.2",
+    "ow": "^0.17.0",
     "tarn": "^2.0.0"
   }
 }
