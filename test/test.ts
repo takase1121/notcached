@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import ow from 'ow';
 import { createServer } from 'net';
-import { Notcached, Util } from '../';
+import { Notcached, Util, createPool } from '../';
 
 const SERVER_LOCATION = process.env.MEMCACHED_SERVER_LOCATION || '127.0.0.1:11211';
 const MOCK_SERVER_PORT = Number(process.env.MOCK_MEMCACHED_SERVER_PORT) || 65531;
@@ -382,3 +382,24 @@ describe('Notcached', function() {
         });
     });
 });
+
+describe('Notcached pool', function() {
+    this.timeout(5000);
+
+    let pool;
+    after(async() => {
+        if (pool) await pool.destroy();
+    })
+    describe('Pooling', function() {
+        it('Should make pool', async() => {
+            pool = createPool(SERVER_LOCATION, { min: 2, max: 4 });
+        });
+        
+        it('Should acquire connections just fine', async() => {
+            pool = createPool(SERVER_LOCATION, { min: 2, max: 4 });
+            const connection = await pool.acquire().promise;
+            assert(connection instanceof Notcached);
+            pool.release(connection);
+        });
+    });
+})
