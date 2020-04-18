@@ -1,7 +1,11 @@
 {
   "name": "notcached",
   "version": "1.1.1",
-  "description": "Memcached client",
+  "description": "Yet another memcached client written in TypeScript.",
+  "keywords": [
+    "memcached", "notcached", "cache", "storage", "caching", "key", "value", "store", 
+    "memcache", "nosql", "InnoDB memcached API", "client"
+  ],
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
