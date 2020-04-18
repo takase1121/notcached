@@ -10,7 +10,7 @@
     "compile": "tsc",
     "build": "npm run lint && npm run compile",
     "test": "ts-mocha test/test.ts",
-    "prepublish": "npm run clean && npm run build"
+    "prepare": "npm run clean && npm run build"
   },
   "author": "takase1121",
   "license": "MIT",
