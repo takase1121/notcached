@@ -17,7 +17,7 @@
     "type": "git",
     "url": "https://github.com/takase1121/notcached.git"
   },
-  "homepage": "https://github.com/takase1121/notcached",
+  "homepage": "https://takase1121.github.io/notcached",
   "author": "takase1121",
   "license": "MIT",
   "dependencies": {

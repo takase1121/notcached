@@ -13,3 +13,7 @@ Even the fork `memecached` doesn't seem to be maintained either. So, I decided t
 - [ ] Binary support
 - [ ] SASL support
 - [ ] Stream support (node.js `stream`)
+
+
+### Documentations
+[Here.](https://takase1121.github.io/notcached)
