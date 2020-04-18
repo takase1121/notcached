@@ -1,18 +1,30 @@
 {
   "name": "notcached",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Yet another memcached client written in TypeScript.",
   "keywords": [
-    "memcached", "notcached", "cache", "storage", "caching", "key", "value", "store", 
-    "memcache", "nosql", "InnoDB memcached API", "client"
+    "memcached",
+    "notcached",
+    "cache",
+    "storage",
+    "caching",
+    "key",
+    "value",
+    "store",
+    "memcache",
+    "nosql",
+    "InnoDB memcached API",
+    "client"
   ],
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "clean": "rimraf lib docs",
+    "clean:lib": "rimraf docs",
+    "clean:docs": "rimraf docs",
     "lint": "eslint src/**/*",
     "compile": "tsc -p .",
-    "build": "npm run lint && npm run clean && npm run compile && npm run docs",
+    "build": "npm run lint && npm run clean:lib && npm run compile",
+    "build:full": "npm run lint && npm run clean:lib && npm run compile && npm run clean:docs && npm run docs",
     "test": "npm run build && ts-mocha test/test.ts",
     "prepare": "npm run build",
     "docs": "typedoc"
