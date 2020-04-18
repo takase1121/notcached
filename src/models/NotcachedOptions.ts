@@ -3,11 +3,11 @@ interface DebugCallback {
 }
 
 export interface NotcachedOptions {
-    debug?: boolean | DebugCallback;
-    retries?: number;
-    retryTime?: number;
-    connectionTimeout?: number;
-    timeout?: number;
-    tcp?: object;
-    legacyFlags?: boolean;
+    debug: boolean | DebugCallback;
+    retries: number;
+    retryTime: number;
+    connectionTimeout: number;
+    timeout: number;
+    tcp: object;
+    legacyFlags: boolean;
 };
