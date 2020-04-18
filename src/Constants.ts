@@ -21,4 +21,9 @@ export const RETRIEVAL_COMMANDS = [
     'gets',
     'gat',
     'gats'
-]
+];
+
+/**
+ * Seperator used by memcached
+ */
+export const SEP = '\r\n';

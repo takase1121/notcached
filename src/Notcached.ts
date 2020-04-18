@@ -2,11 +2,11 @@ import ow from 'ow';
 import merge from 'deepmerge';
 import { inspect } from 'util';
 import { EventEmitter } from 'events';
-import { connect, Socket, NetConnectOpts, ConnectOpts } from 'net';
+import { connect, Socket, NetConnectOpts } from 'net';
 
 import { is, memcachedDate } from './Util'
 
-import { MAX_FLAG, MAX_LEGACY_FLAG, RETRIEVAL_COMMANDS } from './Constants';
+import { MAX_FLAG, MAX_LEGACY_FLAG, RETRIEVAL_COMMANDS, SEP } from './Constants';
 import { NotcachedOptions, NotcachedItem, NotcachedQueueItem, SocketData } from './models'
 
 
@@ -302,7 +302,7 @@ export class Notcached extends EventEmitter {
         commandString.push(memcachedDate(expireTime).toString());
         commandString.push(block.length.toString());
         if (cas) commandString.push(cas);
-        commandString.push('\r\n');
+        commandString.push(SEP);
 
         return this.command(cmd, commandString.join(' '), block);
     }
@@ -319,7 +319,7 @@ export class Notcached extends EventEmitter {
         let commandString = [];
         commandString.push(cmd);
         commandString = [...commandString, ...keys];
-        commandString.push('\r\n');
+        commandString.push(SEP);
 
         return this.command(cmd, commandString.join(' '));
     }
@@ -452,7 +452,7 @@ export class Notcached extends EventEmitter {
         if (item.data) {
             if (this.options.debug) console.log('Writed a block of data');
             this.socket!.write(item.data);
-            this.socket!.write('\r\n');
+            this.socket!.write(SEP);
         }
     }
 
@@ -475,9 +475,9 @@ export class Notcached extends EventEmitter {
      * Check and parse command replies
      */
     private checkReply() {
-        if (this.socketData.buffer.includes('\r\n')) {
+        if (this.socketData.buffer.includes(SEP)) {
             // has delimiter, try to delimit
-            const delimiterPos = this.socketData.buffer.indexOf('\r\n');
+            const delimiterPos = this.socketData.buffer.indexOf(SEP);
             const messageBeforeSplit = this.socketData.buffer.slice(0, delimiterPos);
             const messageAfterSplit = this.socketData.buffer.slice(delimiterPos + 2);
             this.socketData.buffer = messageAfterSplit;
