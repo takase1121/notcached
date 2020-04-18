@@ -9,7 +9,7 @@
     "lint": "eslint src/**/*",
     "compile": "tsc",
     "build": "npm run lint && npm run compile",
-    "test": "ts-mocha test/test.ts",
+    "test": "npm run build && ts-mocha test/test.ts",
     "prepare": "npm run clean && npm run build"
   },
   "author": "takase1121",
