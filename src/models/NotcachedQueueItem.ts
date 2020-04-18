@@ -1,4 +1,4 @@
-import { NotcachedItem } from "./NotcachedItem";
+import { NotcachedItem } from './NotcachedItem' // eslint-disable-line no-unused-vars
 
 export interface NotcachedQueueItem {
     resolve: any;

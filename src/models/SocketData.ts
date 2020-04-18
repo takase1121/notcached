@@ -1,4 +1,4 @@
-import { BlockData } from './BlockData'
+import { BlockData } from './BlockData' // eslint-disable-line no-unused-vars
 
 export interface SocketData {
     buffer: Buffer;
