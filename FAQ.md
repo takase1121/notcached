@@ -1,6 +1,6 @@
-# Memcached Tips
+# Memcached FAQ
 
-Here are some tips regarding Memcached.
+Here are some FAQ regarding Memcached.
 
 
 ## Memcached Keys

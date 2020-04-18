@@ -57,4 +57,4 @@ This is some examples for common usages of the library. For more info, visit the
 
 
 ### Memcached FAQ
-[See memcached FAQ](https://github.com/takase1121/notcached/blob/master/FAQ.md)
+[Here.](https://github.com/takase1121/notcached/blob/master/FAQ.md)
