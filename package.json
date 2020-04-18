@@ -5,18 +5,19 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "clean": "rimraf lib",
+    "clean": "rimraf lib docs",
     "lint": "eslint src/**/*",
-    "compile": "tsc",
-    "build": "npm run lint && npm run compile",
+    "compile": "tsc -p .",
+    "build": "npm run lint && npm run clean && npm run compile && npm run docs",
     "test": "npm run build && ts-mocha test/test.ts",
-    "prepare": "npm run clean && npm run build"
+    "prepare": "npm run build",
+    "docs": "typedoc"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/takase1121/notcached.git"
-  }, 
-  "homepage": "https://github.com/takase1121/notcached", 
+  },
+  "homepage": "https://github.com/takase1121/notcached",
   "author": "takase1121",
   "license": "MIT",
   "dependencies": {
@@ -39,6 +40,7 @@
     "mocha": "^7.1.1",
     "rimraf": "3.0.2",
     "ts-mocha": "^7.0.0",
+    "typedoc": "^0.17.4",
     "typescript": "^3.8.3"
   }
 }
