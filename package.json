@@ -6,8 +6,11 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
-    "build": "tsc",
-    "test": "ts-mocha test/test.ts"
+    "lint": "eslint src/**/*",
+    "compile": "tsc",
+    "build": "npm run lint && npm run compile",
+    "test": "ts-mocha test/test.ts",
+    "prepublish": "npm run clean && npm run build"
   },
   "author": "takase1121",
   "license": "MIT",
@@ -17,12 +20,20 @@
     "tarn": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^13.11.1",
     "@types/expect": "^24.3.0",
     "@types/mocha": "^7.0.2",
+    "@types/node": "^13.11.1",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "mocha": "^7.1.1",
+    "rimraf": "3.0.2",
     "ts-mocha": "^7.0.0",
-    "typescript": "^3.8.3",
-    "rimraf": "3.0.2"
+    "typescript": "^3.8.3"
   }
 }
