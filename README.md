@@ -1,7 +1,7 @@
 # Notcached
 A Node.js Memcached client.
 
-After using the `memcached` package, I was dissatisfied by it. `memcached` does not support promises and its not maintained anymore.
+After using the `memcached` package, I was dissatisfied. `memcached` does not support promises and its not maintained anymore.
 Even the fork `memecached` doesn't seem to be maintained either. So, I decided to write my own client instead.
 
 
