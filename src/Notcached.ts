@@ -2,7 +2,7 @@ import ow from 'ow';
 import merge from 'deepmerge';
 import { inspect } from 'util';
 import { EventEmitter } from 'events';
-import { connect, Socket, NetConnectOpts } from 'net';
+import { connect, Socket, NetConnectOpts, ConnectOpts } from 'net';
 
 import { is, memcachedDate } from './Util'
 
@@ -34,7 +34,9 @@ export class Notcached extends EventEmitter {
     /**
      * @event connect Emitted when socket started connecting
      */
-
+    
+    public destroyed: boolean;
+    
     private location: { host: string, port: number };
     private options: NotcachedOptions;
 
@@ -45,17 +47,15 @@ export class Notcached extends EventEmitter {
     private queue: NotcachedQueueItem[];
     private currentItem?: NotcachedQueueItem;
     private socket?: Socket;
-    private destroyed: boolean;
     private returnBuffer: boolean;
     private connectionTimeout: any;
-
 
     /**
      * Make a single connection to a server
      * @param connectionString Location of the memcached server, eg: `127.0.0.1:11211`
-     * @param options 
+     * @param options Options
      */
-    constructor(connectionString: string, options?: NotcachedOptions) {
+    constructor(connectionString: string, options?: Partial<NotcachedOptions>) {
         super();
         if (!connectionString.match(/(.+):(\d+)$/)) {
             throw new Error('Server path must be "ip:port"');
@@ -65,6 +65,7 @@ export class Notcached extends EventEmitter {
             debug: false,
             retries: 3,
             retryTime: 3000,
+            timeout: Infinity,
             connectionTimeout: 3000,
             tcp: {},
             legacyFlags: true
@@ -267,6 +268,9 @@ export class Notcached extends EventEmitter {
         return this.command('flush_all', `flush_all ${delay} \r\n`);
     }
 
+    /**
+     * Ends the connection
+     */
     end() {
         this.destroyed = true;
         this.queue.forEach(({ reject }) => reject(new Error('This client is already destroyed.')));
@@ -282,7 +286,7 @@ export class Notcached extends EventEmitter {
      * @param expireTime 
      * @param cas
      */
-    execStorageCommand(cmd: string, key: string, flags: number, expireTime: number|Date, value: Buffer|string, cas?: string) {
+    private execStorageCommand(cmd: string, key: string, flags: number, expireTime: number|Date, value: Buffer|string, cas?: string) {
         is.memcachedKey(key);
         is.bufferOrString(value);
         ow(cmd, ow.string.nonEmpty.alphabetical);
@@ -305,10 +309,10 @@ export class Notcached extends EventEmitter {
 
     /**
      * Execute a retrieval command
-     * @param {string} cmd 
-     * @param {string[]} keys 
+     * @param cmd 
+     * @param keys 
      */
-    execRetrievalCommands(cmd: string, keys: string[]) {
+    private execRetrievalCommands(cmd: string, keys: string[]) {
         ow(cmd, ow.string.nonEmpty);
         keys.forEach((key: string) => is.memcachedKey(key));
 
@@ -322,11 +326,11 @@ export class Notcached extends EventEmitter {
 
     /**
      * Executes a command. This is a low level method used to queue and send data to server
-     * @param {string} cmd The command
-     * @param {string} cmdString The actual command string sent to server
-     * @param {Buffer} [block] The data block if any
+     * @param cmd The command
+     * @param cmdString The actual command string sent to server
+     * @param block? The data block if any
      */
-    command(commandName: string, command: string, block?: Buffer) {
+    private command(commandName: string, command: string, block?: Buffer) {
         return new Promise((resolve, reject) => {
             let item = {
                 commandName,
@@ -344,11 +348,10 @@ export class Notcached extends EventEmitter {
 
     /**
      * (re)connect to the server
-     * @private
      */
-    connect(retrying?: boolean) {
+    private connect(retrying?: boolean) {
         if (this.destroyed) return;
-        if (retrying && this.retries >= this.options.retries!) {
+        if (retrying && this.retries >= this.options.retries) {
             this.emit('error', new Error('Max retries achieved'));
             return;
         }
@@ -359,8 +362,8 @@ export class Notcached extends EventEmitter {
         if (this.socket && !this.socket.destroyed) this.socket.destroy();
         this.socket = undefined;
 
-        this.socket = connect(merge({ host, port }, this.options.tcp!) as NetConnectOpts);
-        if ('timeout' in this.options) this.socket.setTimeout(this.options.timeout!);
+        this.socket = connect(merge({ host, port }, this.options.tcp) as NetConnectOpts);
+        if (this.options.timeout !== Infinity) this.socket.setTimeout(this.options.timeout);
         this.socket.once('connect', this.onSocketConnect.bind(this));
         this.socket.once('close', this.onSocketClose.bind(this));
         this.socket.once('error', this.onSocketError.bind(this));
@@ -379,24 +382,22 @@ export class Notcached extends EventEmitter {
     /**
      * Reconnect to the server
      */
-    reconnect() {
+    private reconnect() {
         setTimeout(this.connect.bind(this, true), this.options.retryTime);
     }
 
     /**
      * For socket `connect` event
-     * @private
      */
-    onSocketConnect() {
+    private onSocketConnect() {
         this.emit('ready', this);
     }
 
     /**
      * For socket `close` event
-     * @param {boolean} hasError
-     * @private 
+     * @param hasError
      */
-    onSocketClose(hasError: boolean) {
+    private onSocketClose(hasError: boolean) {
         if (hasError) {
             this.emit('closed', this.socketError);
         } else {
@@ -409,19 +410,17 @@ export class Notcached extends EventEmitter {
 
     /**
      * For socket `error` event
-     * @param {Error} e 
-     * @private
+     * @param e 
      */
-    onSocketError(e: Error) {
+    private onSocketError(e: Error) {
         this.socketError = e;
         this.emit('error', e);
     }
 
     /**
      * For socket `timeout` event
-     * @private
      */
-    onSocketTimeout() {
+    private onSocketTimeout() {
         this.emit('timeout');
         this.socket!.end();
         this.socket!.destroy();
@@ -432,7 +431,7 @@ export class Notcached extends EventEmitter {
      * @param {Buffer} rawData 
      * @private
      */
-    onSocketData(rawData: Buffer) {
+    private onSocketData(rawData: Buffer) {
         const data = Buffer.isBuffer(rawData) ? rawData : Buffer.from(rawData);
         // concatenate buffer
         this.socketData.buffer = Buffer.concat([this.socketData.buffer, data]);
@@ -442,9 +441,8 @@ export class Notcached extends EventEmitter {
 
     /**
      * Try to send something from the queue
-     * @private
      */
-    dequeue() {
+    private dequeue() {
         if (this.queue.length < 1) return;
         const item = this.queue.shift()!;
         this.currentItem = item;
@@ -460,9 +458,8 @@ export class Notcached extends EventEmitter {
 
     /**
      * Processes the buffer
-     * @private
      */
-    processBuffer() {
+    private processBuffer() {
         if (this.socketData.expectingBlock) {
             // expecting block, redirect all data to there
             this.socketData.block.data = Buffer.concat([this.socketData.block.data!, this.socketData.buffer]);
@@ -477,7 +474,7 @@ export class Notcached extends EventEmitter {
     /**
      * Check and parse command replies
      */
-    checkReply() {
+    private checkReply() {
         if (this.socketData.buffer.includes('\r\n')) {
             // has delimiter, try to delimit
             const delimiterPos = this.socketData.buffer.indexOf('\r\n');
@@ -514,9 +511,8 @@ export class Notcached extends EventEmitter {
     /**
      * Check if the current buffer holds data for a block.
      * If so, it will extract it
-     * @private
      */
-    checkAndVerifyBlock() {
+    private checkAndVerifyBlock() {
         // we will check if the current buffer holds our message
         if (this.socketData.block.data!.length >= this.socketData.block.size!) {
             // slice off our block and other data
@@ -535,10 +531,9 @@ export class Notcached extends EventEmitter {
 
     /**
      * Resolves this value to the user via resolving promises associated to it
-     * @param {string[]} [response] Response from server, or undefined for resolving block data
-     * @private
+     * @param response? from server, or undefined for resolving block data
      */
-    resolveReply(response?: string[]) {
+    private resolveReply(response?: string[]) {
         if (this.options.debug) console.log(`Processing: '${response ? response.join(' ') : 'block'}'`)
         if (!response) {
             // this is to resolve a block
@@ -618,5 +613,25 @@ export class Notcached extends EventEmitter {
                     this.currentItem!.reject(e);
                 }
             }
+    }
+
+    public on(event: 'error', listener: (e: Error) => void): this;
+    public on(event: 'closed', listener: (e?: Error) => void): this;
+    public on(event: 'timeout', listener: () => void): this;
+    public on(event: 'ready', listener:() => void): this;
+    public on(event: 'reconnect', listener: () => void): this;
+    public on(event: 'connect', listener: () => void): this;
+    public on(event: any, listener: (...args: any[]) => void): this {
+        return super.on(event, listener);
+    }
+
+    public once(event: 'error', listener: (e: Error) => void): this;
+    public once(event: 'closed', listener: (e?: Error) => void): this;
+    public once(event: 'timeout', listener: () => void): this;
+    public once(event: 'ready', listener:() => void): this;
+    public once(event: 'reconnect', listener: () => void): this;
+    public once(event: 'connect', listener: () => void): this;
+    public once(event: any, listener: (...args: any[]) => void): this {
+        return super.once(event, listener);
     }
 }
