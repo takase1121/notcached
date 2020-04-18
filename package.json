@@ -12,6 +12,11 @@
     "test": "npm run build && ts-mocha test/test.ts",
     "prepare": "npm run clean && npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/takase1121/notcached.git"
+  }, 
+  "homepage": "https://github.com/takase1121/notcached", 
   "author": "takase1121",
   "license": "MIT",
   "dependencies": {
