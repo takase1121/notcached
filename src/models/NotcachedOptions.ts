@@ -38,7 +38,7 @@ export interface NotcachedOptions {
     /**
      * Determine whether legacy flags to be enabled.
      * Legacy flags are 16-bit unsigned integers while non-legacy flags goes
-     * up to 32-bit. See [Memcached flags]{@link memcached_tips#flags}
+     * up to 32-bit. See FAQ
      */
     legacyFlags: boolean;
 };

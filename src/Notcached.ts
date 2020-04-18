@@ -7,7 +7,7 @@ import { connect, Socket, NetConnectOpts } from 'net';
 import { is, memcachedDate } from './Util'
 
 import { MAX_FLAG, MAX_LEGACY_FLAG, RETRIEVAL_COMMANDS, SEP } from './Constants';
-import { NotcachedOptions, NotcachedItem, NotcachedQueueItem, SocketData } from './models'
+import { NotcachedOptions, NotcachedItem, NotcachedItems, NotcachedQueueItem, SocketData } from './models'
 
 
 export class Notcached extends EventEmitter {
@@ -115,163 +115,163 @@ export class Notcached extends EventEmitter {
 
     /**
      * Store something into the server
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      * @param value The data to store
-     * @param expireTime Expiration date. Defaults to never (0) See [memcached dates]{@link memcached_tips#date}
-     * @param flags Flags to store the data with. See [Flags]{@link memcached_tips#flags}
+     * @param expireTime Expiration date. Defaults to never (0) See FAQ
+     * @param flags Flags to store the data with. See FAQ
      */
-    set(key: string, value: Buffer|string, expireTime: number|Date = 0, flags: number = 0) {
+    set(key: string, value: Buffer|string, expireTime: number|Date = 0, flags: number = 0): Promise<void> {
         return this.execStorageCommand('set', key, flags, expireTime, value);
     }
 
     /**
      * Store something only if the server don't have it
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      * @param value The data to store
-     * @param expireTime Expiration date. Defaults to never (0) See [memcached dates]{@link memcached_tips#date}
-     * @param flags Flags to store the data with. See [Flags]{@link memcached_tips#flags}
+     * @param expireTime Expiration date. Defaults to never (0) See FAQ
+     * @param flags Flags to store the data with. See FAQ
      */
-    add(key: string, value: Buffer|string, expireTime: number|Date = 0, flags: number = 0) {
+    add(key: string, value: Buffer|string, expireTime: number|Date = 0, flags: number = 0): Promise<void> {
         return this.execStorageCommand('add', key, flags, expireTime, value);
     }
 
     /**
      * Store something only if the server have it
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      * @param value The data to store
-     * @param expireTime Expiration date. Defaults to never (0) See [memcached dates]{@link memcached_tips#date}
-     * @param flags Flags to store the data with. See [Flags]{@link memcached_tips#flags}
+     * @param expireTime Expiration date. Defaults to never (0) See FAQ
+     * @param flags Flags to store the data with. See FAQ
      */
-    replace(key: string, value: Buffer|string, expireTime: number|Date = 0, flags: number = 0) {
+    replace(key: string, value: Buffer|string, expireTime: number|Date = 0, flags: number = 0): Promise<void> {
         return this.execStorageCommand('replace', key, flags, expireTime, value);
     }
 
     /**
      * A "check and set" operation.
      * "Store something only if someone else did not update it since last time I fetched it"
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      * @param value The data to store
      * @param cas CAS ID. Usually you get this ID via `gets`
-     * @param expireTime Expiration date. Defaults to never (0) See [memcached dates]{@link memcached_tips#date}
-     * @param flags Flags to store the data with. See [Flags]{@link memcached_tips#flags}
+     * @param expireTime Expiration date. Defaults to never (0) See FAQ
+     * @param flags Flags to store the data with. See FAQ
      */
-    cas(key: string, value: Buffer|string, cas: string, expireTime: number|Date = 0, flags: number = 0) {
+    cas(key: string, value: Buffer|string, cas: string, expireTime: number|Date = 0, flags: number = 0): Promise<void> {
         return this.execStorageCommand('cas', key, flags, expireTime, value, cas);
     }
 
     /**
      * Append onto existing data
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      * @param value The data to store
      */
-    append(key: string, value: Buffer|string) {
+    append(key: string, value: Buffer|string): Promise<void> {
         return this.execStorageCommand('append', key, 0, 0, value);
     }
 
     /**
      * Prepend onto existing data
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      * @param value 
      */
-    prepend(key: string, value: Buffer|string) {
+    prepend(key: string, value: Buffer|string): Promise<void> {
         return this.execStorageCommand('prepend', key, 0, 0, value);
     }
 
     /**
      * Get something / a lot of things
-     * @param keys Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param keys Memcached key. See FAQ
      */
-    get(...keys: string[]) {
+    get(...keys: string[]): Promise<NotcachedItems> {
         return this.execRetrievalCommands('get', [...keys]);
     }
 
     /**
      * Get something / a lot of things with their CAS ID
-     * @param keys Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param keys Memcached key. See FAQ
      */
-    gets(...keys: string[]) {
+    gets(...keys: string[]): Promise<NotcachedItems> {
         return this.execRetrievalCommands('gets', [...keys]);
     }
 
     /**
      * Delete something
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      */
-    delete(key: string) {
+    delete(key: string): Promise<void> {
         is.memcachedKey(key);
-        return this.command('delete', `delete ${key} \r\n`);
+        return this.command('delete', `delete ${key} \r\n`) as Promise<void>;
     }
 
     /**
      * Increment something
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      * @param value The value to increment
      */
-    incr(key: string, value: number = 1) {
+    incr(key: string, value: number = 1): Promise<number> {
         is.memcachedKey(key);
         ow(value, ow.number.greaterThanOrEqual(1));
-        return this.command('incr', `incr ${key} ${value} \r\n`);
+        return this.command('incr', `incr ${key} ${value} \r\n`) as Promise<number>;
     }
 
     /**
      * Decrement something
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      * @param value The value to decrement
      */
-    decr(key: string, value: number = 1) {
+    decr(key: string, value: number = 1): Promise<number> {
         is.memcachedKey(key);
         ow(value, ow.number.greaterThanOrEqual(1));
-        return this.command('decr', `decr ${key} ${value} \r\n`);
+        return this.command('decr', `decr ${key} ${value} \r\n`) as Promise<number>;
     }
 
     /**
      * Touch a key (Updating their expiration date)
-     * @param key Memcached key. See [Memcached keys]{@link memcached_tips#key}
+     * @param key Memcached key. See FAQ
      * @param expireTime
      */
-    touch(key: string, expireTime: number|Date = 0) {
+    touch(key: string, expireTime: number|Date = 0): Promise<void> {
         is.memcachedKey(key);
         is.numberOrDate(expireTime);
-        return this.command('touch', `touch ${key} ${memcachedDate(expireTime)} \r\n`);
+        return this.command('touch', `touch ${key} ${memcachedDate(expireTime)} \r\n`) as Promise<void>;
     }
 
     /**
      * Get and touch. Fetch items and update the expiration time of an existing items
      * @param expireTime 
-     * @param keys Memcached key(s). See [Memcached keys]{@link memcached_tips#key}
+     * @param keys Memcached key(s). See FAQ
      */
-    gat(expireTime: number|Date = 0, ...keys:string[]) {
+    gat(expireTime: number|Date = 0, ...keys:string[]): Promise<NotcachedItems> {
         is.numberOrDate(expireTime);
         [...keys].forEach((key) => is.memcachedKey(key));
 
-        return this.command('gat', `gat ${memcachedDate(expireTime)} ${keys.join(' ')}\r\n`);
+        return this.command('gat', `gat ${memcachedDate(expireTime)} ${keys.join(' ')}\r\n`) as Promise<NotcachedItems>;
     }
     /**
      * Get and touch with CAS ID. Fetch items and update the expiration time of an existing items
      * @param expireTime 
-     * @param keys Memcached key(s). See [Memcached keys]{@link memcached_tips#key}
+     * @param keys Memcached key(s). See FAQ
      */
-    gats(expireTime: number|Date = 0, ...keys: string[]) {
+    gats(expireTime: number|Date = 0, ...keys: string[]): Promise<NotcachedItems> {
         is.numberOrDate(expireTime);
         [...keys].forEach((key) => is.memcachedKey(key));
 
-        return this.command('gats', `gats ${memcachedDate(expireTime)} ${keys.join(' ')}\r\n`);
+        return this.command('gats', `gats ${memcachedDate(expireTime)} ${keys.join(' ')}\r\n`) as Promise<NotcachedItems>;
     }
 
     /**
      * Remove everything from server
      * @param delay The delay before the flush operation is carried out
      */
-    flushAll(delay: number = 0) {
+    flushAll(delay: number = 0): Promise<void> {
         ow(delay, ow.number);
 
-        return this.command('flush_all', `flush_all ${delay} \r\n`);
+        return this.command('flush_all', `flush_all ${delay} \r\n`) as Promise<void>;
     }
 
     /**
      * Ends the connection
      */
-    end() {
+    end(): void {
         this.destroyed = true;
         this.queue.forEach(({ reject }) => reject(new Error('This client is already destroyed.')));
         if (this.socket) this.socket.end();
@@ -279,14 +279,8 @@ export class Notcached extends EventEmitter {
 
     /**
      * Executes a storage command
-     * @param cmd 
-     * @param key 
-     * @param value 
-     * @param flags 
-     * @param expireTime 
-     * @param cas
      */
-    private execStorageCommand(cmd: string, key: string, flags: number, expireTime: number|Date, value: Buffer|string, cas?: string) {
+    private execStorageCommand(cmd: string, key: string, flags: number, expireTime: number|Date, value: Buffer|string, cas?: string): Promise<void> {
         is.memcachedKey(key);
         is.bufferOrString(value);
         ow(cmd, ow.string.nonEmpty.alphabetical);
@@ -304,7 +298,7 @@ export class Notcached extends EventEmitter {
         if (cas) commandString.push(cas);
         commandString.push(SEP);
 
-        return this.command(cmd, commandString.join(' '), block);
+        return this.command(cmd, commandString.join(' '), block) as Promise<void>;
     }
 
     /**
@@ -312,7 +306,7 @@ export class Notcached extends EventEmitter {
      * @param cmd 
      * @param keys 
      */
-    private execRetrievalCommands(cmd: string, keys: string[]) {
+    private execRetrievalCommands(cmd: string, keys: string[]): Promise<NotcachedItems> {
         ow(cmd, ow.string.nonEmpty);
         keys.forEach((key: string) => is.memcachedKey(key));
 
@@ -321,7 +315,7 @@ export class Notcached extends EventEmitter {
         commandString = [...commandString, ...keys];
         commandString.push(SEP);
 
-        return this.command(cmd, commandString.join(' '));
+        return this.command(cmd, commandString.join(' ')) as Promise<NotcachedItems>;
     }
 
     /**
@@ -330,7 +324,7 @@ export class Notcached extends EventEmitter {
      * @param cmdString The actual command string sent to server
      * @param block? The data block if any
      */
-    private command(commandName: string, command: string, block?: Buffer) {
+    private command(commandName: string, command: string, block?: Buffer): Promise<void | NotcachedItems | number> {
         return new Promise((resolve, reject) => {
             let item = {
                 commandName,
@@ -585,7 +579,7 @@ export class Notcached extends EventEmitter {
             case 'STORED':
             case 'TOUCHED':
             case 'DELETED':
-                this.currentItem!.resolve(true);
+                this.currentItem!.resolve();
                 break;
             
             case 'EXISTS':

@@ -1,4 +1,5 @@
 import { NotcachedItem } from './NotcachedItem' // eslint-disable-line no-unused-vars
+import { NotcachedItems } from './NotcachedItems' // eslint-disable-line no-unused-vars
 
 /**
  * A request in queue
@@ -27,5 +28,5 @@ export interface NotcachedQueueItem {
     /**
      * For retrieval commands, this will be created to store the data from the server
      */
-    replyItems?: { [key: string]: NotcachedItem };
+    replyItems?: NotcachedItems;
 }
