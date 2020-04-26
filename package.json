@@ -19,15 +19,15 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "clean:lib": "rimraf docs",
+    "clean:lib": "rimraf lib",
     "clean:docs": "rimraf docs",
-    "lint": "eslint src/**/*",
+    "lint": "eslint src --ext .ts",
     "compile": "tsc -p .",
+    "docs": "typedoc",
     "build": "npm run lint && npm run clean:lib && npm run compile",
     "build:full": "npm run lint && npm run clean:lib && npm run compile && npm run clean:docs && npm run docs",
     "test": "npm run build && ts-mocha test/test.ts",
-    "prepare": "npm run build",
-    "docs": "typedoc"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
