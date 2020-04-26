@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>NotcachedQueueItem | notcached</title>
+	<title>NotcachedPoolOptions | notcached</title>
 	<meta name="description" content="Documentation for notcached">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="notcachedqueueitem.html">NotcachedQueueItem</a>
+					<a href="notcachedpooloptions.html">NotcachedPoolOptions</a>
 				</li>
 			</ul>
-			<h1>Interface NotcachedQueueItem</h1>
+			<h1>Interface NotcachedPoolOptions</h1>
 		</div>
 	</div>
 </header>
@@ -67,7 +67,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A request in queue</p>
+						<p>Pool options. Copied and modified from
+						<a href="https://github.com/Vincit/tarn.js/blob/b577cfc3b1e2f193c5a6a18645f5ac97dcc75600/src/Pool.ts#L7">https://github.com/Vincit/tarn.js/blob/b577cfc3b1e2f193c5a6a18645f5ac97dcc75600/src/Pool.ts#L7</a></p>
 					</div>
 				</div>
 			</section>
@@ -75,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">NotcachedQueueItem</span>
+						<span class="target">NotcachedPoolOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -86,12 +87,15 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedqueueitem.html#command" class="tsd-kind-icon">command</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedqueueitem.html#commandname" class="tsd-kind-icon">command<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedqueueitem.html#data" class="tsd-kind-icon">data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedqueueitem.html#reject" class="tsd-kind-icon">reject</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedqueueitem.html#replyitems" class="tsd-kind-icon">reply<wbr>Items</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedqueueitem.html#resolve" class="tsd-kind-icon">resolve</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedpooloptions.html#acquiretimeoutmillis" class="tsd-kind-icon">acquire<wbr>Timeout<wbr>Millis</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedpooloptions.html#createretryintervalmillis" class="tsd-kind-icon">create<wbr>Retry<wbr>Interval<wbr>Millis</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedpooloptions.html#createtimeoutmillis" class="tsd-kind-icon">create<wbr>Timeout<wbr>Millis</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedpooloptions.html#destroytimeoutmillis" class="tsd-kind-icon">destroy<wbr>Timeout<wbr>Millis</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedpooloptions.html#idletimeoutmillis" class="tsd-kind-icon">idle<wbr>Timeout<wbr>Millis</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedpooloptions.html#max" class="tsd-kind-icon">max</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedpooloptions.html#min" class="tsd-kind-icon">min</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedpooloptions.html#propagatecreateerror" class="tsd-kind-icon">propagate<wbr>Create<wbr>Error</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="notcachedpooloptions.html#reapintervalmillis" class="tsd-kind-icon">reap<wbr>Interval<wbr>Millis</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,94 +104,94 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="command" class="tsd-anchor"></a>
-					<h3>command</h3>
-					<div class="tsd-signature tsd-kind-icon">command<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="acquiretimeoutmillis" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> acquire<wbr>Timeout<wbr>Millis</h3>
+					<div class="tsd-signature tsd-kind-icon">acquire<wbr>Timeout<wbr>Millis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in src/models/NotcachedQueue.ts:15</li>
+							<li>Defined in src/models/NotcachedPoolOptions.ts:8</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The command itself that includes args</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="commandname" class="tsd-anchor"></a>
-					<h3>command<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">command<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="createretryintervalmillis" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> create<wbr>Retry<wbr>Interval<wbr>Millis</h3>
+					<div class="tsd-signature tsd-kind-icon">create<wbr>Retry<wbr>Interval<wbr>Millis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in src/models/NotcachedQueue.ts:13</li>
+							<li>Defined in src/models/NotcachedPoolOptions.ts:12</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Command name. Eg: get, gets, gat</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="data" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> data</h3>
-					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span></div>
+					<a name="createtimeoutmillis" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> create<wbr>Timeout<wbr>Millis</h3>
+					<div class="tsd-signature tsd-kind-icon">create<wbr>Timeout<wbr>Millis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in src/models/NotcachedQueue.ts:17</li>
+							<li>Defined in src/models/NotcachedPoolOptions.ts:9</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Optional payload block to send to server</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="reject" class="tsd-anchor"></a>
-					<h3>reject</h3>
-					<div class="tsd-signature tsd-kind-icon">reject<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<a name="destroytimeoutmillis" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> destroy<wbr>Timeout<wbr>Millis</h3>
+					<div class="tsd-signature tsd-kind-icon">destroy<wbr>Timeout<wbr>Millis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in src/models/NotcachedQueue.ts:11</li>
+							<li>Defined in src/models/NotcachedPoolOptions.ts:10</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Reject function created by <code>Promise</code> constructor</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="replyitems" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> reply<wbr>Items</h3>
-					<div class="tsd-signature tsd-kind-icon">reply<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="notcacheditems.html" class="tsd-signature-type">NotcachedItems</a></div>
+					<a name="idletimeoutmillis" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> idle<wbr>Timeout<wbr>Millis</h3>
+					<div class="tsd-signature tsd-kind-icon">idle<wbr>Timeout<wbr>Millis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in src/models/NotcachedQueue.ts:19</li>
+							<li>Defined in src/models/NotcachedPoolOptions.ts:11</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>For retrieval commands, this will be created to store the data from the server</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="resolve" class="tsd-anchor"></a>
-					<h3>resolve</h3>
-					<div class="tsd-signature tsd-kind-icon">resolve<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<a name="max" class="tsd-anchor"></a>
+					<h3>max</h3>
+					<div class="tsd-signature tsd-kind-icon">max<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in src/models/NotcachedQueue.ts:9</li>
+							<li>Defined in src/models/NotcachedPoolOptions.ts:7</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Resolve function created by <code>Promise</code> constructor</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="min" class="tsd-anchor"></a>
+					<h3>min</h3>
+					<div class="tsd-signature tsd-kind-icon">min<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in src/models/NotcachedPoolOptions.ts:6</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="propagatecreateerror" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> propagate<wbr>Create<wbr>Error</h3>
+					<div class="tsd-signature tsd-kind-icon">propagate<wbr>Create<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in src/models/NotcachedPoolOptions.ts:14</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="reapintervalmillis" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> reap<wbr>Interval<wbr>Millis</h3>
+					<div class="tsd-signature tsd-kind-icon">reap<wbr>Interval<wbr>Millis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in src/models/NotcachedPoolOptions.ts:13</li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -252,36 +256,45 @@
 					<li class=" tsd-kind-interface">
 						<a href="notcachedoptions.html" class="tsd-kind-icon">Notcached<wbr>Options</a>
 					</li>
-					<li class=" tsd-kind-interface">
-						<a href="notcachedpooloptions.html" class="tsd-kind-icon">Notcached<wbr>Pool<wbr>Options</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="notcachedqueueitem.html" class="tsd-kind-icon">Notcached<wbr>Queue<wbr>Item</a>
+						<a href="notcachedpooloptions.html" class="tsd-kind-icon">Notcached<wbr>Pool<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="notcachedqueueitem.html#command" class="tsd-kind-icon">command</a>
+								<a href="notcachedpooloptions.html#acquiretimeoutmillis" class="tsd-kind-icon">acquire<wbr>Timeout<wbr>Millis</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="notcachedqueueitem.html#commandname" class="tsd-kind-icon">command<wbr>Name</a>
+								<a href="notcachedpooloptions.html#createretryintervalmillis" class="tsd-kind-icon">create<wbr>Retry<wbr>Interval<wbr>Millis</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="notcachedqueueitem.html#data" class="tsd-kind-icon">data</a>
+								<a href="notcachedpooloptions.html#createtimeoutmillis" class="tsd-kind-icon">create<wbr>Timeout<wbr>Millis</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="notcachedqueueitem.html#reject" class="tsd-kind-icon">reject</a>
+								<a href="notcachedpooloptions.html#destroytimeoutmillis" class="tsd-kind-icon">destroy<wbr>Timeout<wbr>Millis</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="notcachedqueueitem.html#replyitems" class="tsd-kind-icon">reply<wbr>Items</a>
+								<a href="notcachedpooloptions.html#idletimeoutmillis" class="tsd-kind-icon">idle<wbr>Timeout<wbr>Millis</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="notcachedqueueitem.html#resolve" class="tsd-kind-icon">resolve</a>
+								<a href="notcachedpooloptions.html#max" class="tsd-kind-icon">max</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="notcachedpooloptions.html#min" class="tsd-kind-icon">min</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="notcachedpooloptions.html#propagatecreateerror" class="tsd-kind-icon">propagate<wbr>Create<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="notcachedpooloptions.html#reapintervalmillis" class="tsd-kind-icon">reap<wbr>Interval<wbr>Millis</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="notcachedqueueitem.html" class="tsd-kind-icon">Notcached<wbr>Queue<wbr>Item</a>
+					</li>
 					<li class=" tsd-kind-interface">
 						<a href="socketdata.html" class="tsd-kind-icon">Socket<wbr>Data</a>
 					</li>

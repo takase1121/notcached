@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>NotcachedItems | notcached</title>
+	<title>RETURN_TYPE | notcached</title>
 	<meta name="description" content="Documentation for notcached">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="notcacheditems.html">NotcachedItems</a>
+					<a href="return_type.html">RETURN_TYPE</a>
 				</li>
 			</ul>
-			<h1>Interface NotcachedItems</h1>
+			<h1>Enumeration RETURN_TYPE</h1>
 		</div>
 	</div>
 </header>
@@ -67,26 +67,46 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>This represents items that are fetched via retrieval commands</p>
+						<p>Return data type of memcached commands</p>
 					</div>
 				</div>
 			</section>
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">NotcachedItems</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-kind-interface">
-				<h3 class="tsd-before-signature">Indexable</h3>
-				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="notcacheditem.html" class="tsd-signature-type">NotcachedItem</a></div>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>This represents items that are fetched via retrieval commands</p>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Enumeration members</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="return_type.html#buffer" class="tsd-kind-icon">BUFFER</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="return_type.html#string" class="tsd-kind-icon">STRING</a></li>
+							</ul>
+						</section>
 					</div>
-				</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="buffer" class="tsd-anchor"></a>
+					<h3>BUFFER</h3>
+					<div class="tsd-signature tsd-kind-icon">BUFFER<span class="tsd-signature-symbol">:</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/takase1121/notcached/blob/d9ee4e4/src/Constants.ts#L23">src/Constants.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="string" class="tsd-anchor"></a>
+					<h3>STRING</h3>
+					<div class="tsd-signature tsd-kind-icon">STRING<span class="tsd-signature-symbol">:</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/takase1121/notcached/blob/d9ee4e4/src/Constants.ts#L24">src/Constants.ts:24</a></li>
+						</ul>
+					</aside>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -99,9 +119,21 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="../enums/return_type.html" class="tsd-kind-icon">RETURN_<wbr>TYPE</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-enum">
+						<a href="return_type.html" class="tsd-kind-icon">RETURN_<wbr>TYPE</a>
+						<ul>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="return_type.html#buffer" class="tsd-kind-icon">BUFFER</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="return_type.html#string" class="tsd-kind-icon">STRING</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="../classes/clientdestroyederror.html" class="tsd-kind-icon">Client<wbr>Destroyed<wbr>Error</a>
 					</li>
@@ -133,35 +165,31 @@
 						<a href="../classes/unexpectedresponseerror.html" class="tsd-kind-icon">Unexpected<wbr>Response<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="blockdata.html" class="tsd-kind-icon">Block<wbr>Data</a>
+						<a href="../interfaces/blockdata.html" class="tsd-kind-icon">Block<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="debugcallback.html" class="tsd-kind-icon">Debug<wbr>Callback</a>
+						<a href="../interfaces/debugcallback.html" class="tsd-kind-icon">Debug<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="memcachedclient.html" class="tsd-kind-icon">Memcached<wbr>Client</a>
+						<a href="../interfaces/memcachedclient.html" class="tsd-kind-icon">Memcached<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="notcacheditem.html" class="tsd-kind-icon">Notcached<wbr>Item</a>
-					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface">
-						<a href="notcacheditems.html" class="tsd-kind-icon">Notcached<wbr>Items</a>
-					</li>
-				</ul>
-				<ul class="after-current">
-					<li class=" tsd-kind-interface">
-						<a href="notcachedoptions.html" class="tsd-kind-icon">Notcached<wbr>Options</a>
+						<a href="../interfaces/notcacheditem.html" class="tsd-kind-icon">Notcached<wbr>Item</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="notcachedpooloptions.html" class="tsd-kind-icon">Notcached<wbr>Pool<wbr>Options</a>
+						<a href="../interfaces/notcacheditems.html" class="tsd-kind-icon">Notcached<wbr>Items</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="notcachedqueueitem.html" class="tsd-kind-icon">Notcached<wbr>Queue<wbr>Item</a>
+						<a href="../interfaces/notcachedoptions.html" class="tsd-kind-icon">Notcached<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="socketdata.html" class="tsd-kind-icon">Socket<wbr>Data</a>
+						<a href="../interfaces/notcachedpooloptions.html" class="tsd-kind-icon">Notcached<wbr>Pool<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/notcachedqueueitem.html" class="tsd-kind-icon">Notcached<wbr>Queue<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/socketdata.html" class="tsd-kind-icon">Socket<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="../globals.html#max_expire_time" class="tsd-kind-icon">MAX_<wbr>EXPIRE_<wbr>TIME</a>
