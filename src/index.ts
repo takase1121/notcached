@@ -1,3 +1,3 @@
-export { Notcached } from './Notcached';
-export { createPool } from './NotcachedPool';
-export * as Util from './Util';
+export { Notcached, createClient } from './Notcached'
+export { NotcachedPool, createPool } from './NotcachedPool'
+export * from './models/Errors'

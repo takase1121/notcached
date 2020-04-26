@@ -2,11 +2,13 @@ import assert from 'assert';
 
 import ow from 'ow';
 import { createServer } from 'net';
-import { Notcached, Util, createPool } from '../';
+import { Notcached, NotcachedPool, createPool, createClient } from '../';
+import * as Util from '../src/Util';
 
 const SERVER_LOCATION = process.env.MEMCACHED_SERVER_LOCATION || '127.0.0.1:11211';
 const MOCK_SERVER_PORT = Number(process.env.MOCK_MEMCACHED_SERVER_PORT) || 65531;
 const MOCK_SERVER_LOCATION = `127.0.0.1:${MOCK_SERVER_PORT}`;
+const POOL_OPTIONS = { min: 2, max: 4 };
 
 describe('Notcached', function() {
     this.timeout(5000);
@@ -30,6 +32,14 @@ describe('Notcached', function() {
                 client.end();
                 client = null;
             }
+        });
+
+        it('Should create client with createClient', () => {
+            client = createClient(MOCK_SERVER_LOCATION);
+        });
+
+        it('Should create client with constructor', () => {
+            client = new Notcached(MOCK_SERVER_LOCATION);
         });
 
         it('should error when invalid server location is used', () => {
@@ -76,8 +86,8 @@ describe('Notcached', function() {
 
         it('add onto existing entry', async() => {
             await assert.rejects(client.add('test', 'hey'), {
-                name: 'Error',
-                message: 'NOT_STORED'
+                name: 'StoreError',
+                errorCode: 'NOT_STORED'
             });
         });
 
@@ -87,8 +97,8 @@ describe('Notcached', function() {
 
         it('replace to something nonexistent', async () => {
             await assert.rejects(client.replace('test3', 'aloha'), {
-                name: 'Error',
-                message: 'NOT_STORED'
+                name: 'StoreError',
+                errorCode: 'NOT_STORED'
             });
         });
 
@@ -98,8 +108,8 @@ describe('Notcached', function() {
 
         it('append to something nonexistent', async () => {
             await assert.rejects(client.append('test3', ' John doe!'), {
-                name: 'Error',
-                message: 'NOT_STORED'
+                name: 'StoreError',
+                errorCode: 'NOT_STORED'
             });
         });
 
@@ -109,8 +119,8 @@ describe('Notcached', function() {
 
         it('prepend to something inexistent', async () => {
             await assert.rejects(client.prepend('test3', ' John doe!'), {
-                name: 'Error',
-                message: 'NOT_STORED'
+                name: 'StoreError',
+                errorCode: 'NOT_STORED'
             });
         });
 
@@ -121,16 +131,16 @@ describe('Notcached', function() {
             await client.set('test', 'somethingelse');
         
             await assert.rejects(client.cas('test', 'somethingdifferent', cas), {
-                name: 'Error',
-                message: 'EXISTS'
+                name: 'StoreError',
+                errorCode: 'EXISTS'
             });
         });
 
         it('CAS operation on something nonexistent', async() => {
             const cas = Math.floor(Math.random() * 10000).toString();
             await assert.rejects(client.cas('somerandomkey', 'somerandomvalue', cas), {
-                name: 'Error',
-                message: 'NOT_FOUND'
+                name: 'StoreError',
+                errorCode: 'NOT_FOUND'
             });
         })
     });
@@ -222,8 +232,8 @@ describe('Notcached', function() {
 
         it('deleting something nonexistent', async() => {
             await assert.rejects(client.delete('test2'), {
-                name: 'Error',
-                message: 'NOT_FOUND'
+                name: 'StoreError',
+                errorCode: 'NOT_FOUND'
             });
         });
     });
@@ -248,8 +258,8 @@ describe('Notcached', function() {
 
         it('incrementing something nonexistent', async() => {
             assert.rejects(client.incr('test2'), {
-                name: 'Error',
-                message: 'NOT_FOUND'
+                name: 'StoreError',
+                errorCode: 'NOT_FOUND'
             });
         });
 
@@ -260,8 +270,8 @@ describe('Notcached', function() {
 
         it('decrement something nonexistent', async() => {
             assert.rejects(client.decr('test2'), {
-                name: 'Error',
-                message: 'NOT_FOUND'
+                name: 'StoreError',
+                errorCode: 'NOT_FOUND'
             });
         });
     });
@@ -294,8 +304,8 @@ describe('Notcached', function() {
 
         it('touch something nonexistent', async() => {
             await assert.rejects(client.touch('test2', 0), {
-                name: 'Error',
-                message: 'NOT_FOUND'
+                name: 'StoreError',
+                errorCode: 'NOT_FOUND'
             });
         });
         
@@ -385,21 +395,26 @@ describe('Notcached', function() {
 
 describe('Notcached pool', function() {
     this.timeout(5000);
-
+    
     let pool;
     after(async() => {
-        if (pool) await pool.destroy();
-    })
+        if (pool) await pool.end();
+    });
+
     describe('Pooling', function() {
-        it('Should make pool', async() => {
-            pool = createPool(SERVER_LOCATION, { min: 2, max: 4 });
+        it('Should make pool with createPool', async() => {
+            pool = createPool(SERVER_LOCATION, POOL_OPTIONS);
         });
-        
+
+        it('Should make pool with constructor', async() => {
+            pool = new NotcachedPool(SERVER_LOCATION, POOL_OPTIONS);
+        })
+
         it('Should acquire connections just fine', async() => {
-            pool = createPool(SERVER_LOCATION, { min: 2, max: 4 });
-            const connection = await pool.acquire().promise;
+            pool = createPool(SERVER_LOCATION, POOL_OPTIONS);
+            const connection = await pool.pool.acquire().promise;
             assert(connection instanceof Notcached);
-            pool.release(connection);
+            pool.pool.release(connection);
         });
     });
 })

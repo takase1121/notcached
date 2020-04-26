@@ -1,26 +1,16 @@
 /**
  * Represents a block of data, usually sent by server with the "VALUE" header.
- * This represents a memcached entry
+ * This represents a memcached entry.
  */
 export interface BlockData {
-    /**
-     * Size of block
-     */
+    /** Size of block */
     size: number | null;
-    /**
-     * Key for the block
-     */
+    /** Key for the block */
     key: string | null;
-    /**
-     * CAS ID
-     */
+    /** CAS ID */
     cas?: string;
-    /**
-     * Flags
-     */
+    /** Flags */
     flags: number | null;
-    /**
-     * Data
-     */
+    /** Data */
     data: Buffer | null;
 }

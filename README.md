@@ -22,7 +22,7 @@ const { Notcached, createPool } = require('notcached');
 const MEMCACHED_SERVER_LOCATION = 'localhost:11211';
 
 const client = new Notcached(SERVER_LOCATION, {
-    debug: false,
+    debug: false, // can be boolean or a function. I recommend using boolean and listen to 'debug' event
     retries: 3,  // number of retries before giving up
     retryTime: 3000, // time in milliseconds to wait before the client attempt to reconnect
     timeout: Infinity, // socket timeout, better leave this Infinity
@@ -43,12 +43,16 @@ console.log(val); // prints: { 'hey': { data: 'hello world!', flags: 12 } }
 
 const pool = createPool(MEMCACHED_SERVER_LOCATION, { min: 2, max: 10 }); // the pool options accept tarn.js options
 
-const connection = await pool.acquire().promise;
+// you can directly do something with it 
+pool.set('hey', 'hello world!');
+
+// if you really need to manually acquire connection, you can access the pool at `pool.pool`
+const connection = await pool.pool.acquire().promise;
 
 // do things with this connection
 
 // release it
-pool.release(pool);
+pool.pool.release(pool);
 ```
 
 This is some examples for common usages of the library. For more info, visit the [documentation](https://takase1121.github.io/notcached).
